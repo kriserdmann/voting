@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Votação</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            margin: 20px auto;
+            max-width: 10000px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #voting-section {
+            margin: 100px 0;
+        }
+
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #008000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button-option {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button-option:hover {
+            background-color: #0056b3;
+        }
+
+        .button:hover {
+            background-color: #005000;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Sistema de Votação</h1>
+        <div id="voting-section">
+            <p>Selecione sua opção de voto:</p>
+            <button class="button-option" onclick="vote('Canto Nobre')">Canto Nobre</button>
+            <button class="button-option" onclick="vote('Hake')">Hake</button>
+            <button class="button-option" onclick="vote('Madame Ehrat')">Madame Ehrat</button>
+            <button class="button-option" onclick="vote('M&M')">M&M</button>
+            <button class="button-option" onclick="vote('HeisenThinkers')">HeisenThinkers</button>
+            <button class="button-option" onclick="vote('Weganos')">Weganos</button>
+        </div>
+        <div id="close-section" class="hidden">
+            <p>Digite a senha para encerrar a votação:</p>
+            <input type="password" id="password" placeholder="Senha">
+            <button class="button" onclick="closeVoting()">Confirmar Encerramento</button>
+        </div>
+        <button class="button" onclick="showCloseSection()">Encerrar Votação</button>
+        <div id="result-section" class="hidden">
+            <h2>Resultados da Votação</h2>
+            <ul id="results"></ul>
+        </div>
+    </div>
+
+    <script>
+        const votes = [];
+
+        function vote(option) {
+            votes.push(option);
+            alert(`Seu voto para '${option}' foi registrado!`);
+        }
+
+        function showCloseSection() {
+            document.getElementById('close-section').classList.remove('hidden');
+        }
+
+        function closeVoting() {
+            const password = document.getElementById('password').value;
+            if (password === 'mi77') {
+                document.getElementById('voting-section').classList.add('hidden');
+                document.getElementById('close-section').classList.add('hidden');
+                document.getElementById('result-section').classList.remove('hidden');
+
+                const resultsList = document.getElementById('results');
+                resultsList.innerHTML = '';
+                const voteCounts = votes.reduce((acc, vote) => {
+                    acc[vote] = (acc[vote] || 0) + 1;
+                    return acc;
+                }, {});
+
+                for (const [option, count] of Object.entries(voteCounts)) {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${option}: ${count} votos`;
+                    resultsList.appendChild(listItem);
+                }
+            } else {
+                alert('Senha incorreta. Tente novamente.');
+            }
+        }
+    </script>
+</body>
+
+</html>
